@@ -1,48 +1,45 @@
-from tree import Tree
+from tree import get_element_by_id
 
-class TestStack:
-    '''Class Stack in Stack.py'''
+def test_get_element_by_id():
+    html_content = """
+    <html>
+        <head>
+            <title>Sample HTML</title>
+        </head>
+        <body>
+            <div id="content">
+                <h1>Welcome to the Page</h1>
+                <p>This is a sample page.</p>
+            </div>
+        </body>
+    </html>
+    """
 
-    def test_get_element_by_id(self):
-  # <body>
-  #   <div id="main">
-  #     <h1 id="heading">Title</h1>
-  #     <h2>Subtitle</h2>
-  #   </div>
-  # </body>
+    target_id = "content"
+    element = get_element_by_id(html_content, target_id)
 
-        '''get_element_by_id test'''
-    tree = Tree(
-      {
-        'tag_name': 'body',
-        'id': None,
-        'children': [
-          {
-            'tag_name': 'div',
-            'id': 'main',
-            'children': [
-              {
-                'tag_name': 'h1',
-                'id': 'heading',
-                'text_content': 'Title',
-                'children': []
-              },
-              {
-                'tag_name': 'h2',
-                'id': None,
-                'text_content': 'Subitle',
-                'children': []
-              }
-            ]
-          }
-        ]
-      }
-    )
-    assert(tree.get_element_by_id('heading') =={
-      'tag_name': 'h1',
-      'id': 'heading',
-      'text_content': 'Title',
-      'children': []
-    } )
+    assert element is not None
+    assert element.name == "div"
+    assert element.get("id") == target_id
 
-    assert(tree.get_element_by_id('nope') == None)
+def test_get_element_by_id_not_found():
+    html_content = """
+    <html>
+        <body>
+            <div id="content">
+                <h1>Welcome to the Page</h1>
+                <p>This is a sample page.</p>
+            </div>
+        </body>
+    </html>
+    """
+
+    target_id = "non_existent_id"
+    element = get_element_by_id(html_content, target_id)
+
+    assert element is None
+
+if __name__ == "__main__":
+    import pytest
+    pytest.main()
+
